@@ -1,5 +1,6 @@
 <?php
     require_once("autoload.php");
+    require_once("components/productSession.php");
 ?>
 <!DOCTYPE html>
  
@@ -22,12 +23,16 @@
 </head>
 
 <body>
+    <?php
+        include('./components/header.php')
+    ?>
     <div class="container">
         <div class="row text-center py-5">
             <?php
                 $products = $database->getData();
                 while ($product = mysqli_fetch_assoc($products)) {
                     product(
+                        $product['id'],
                         $product['image_path'],
                         $product['image_name'],
                         $product['title'],

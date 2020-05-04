@@ -1,6 +1,6 @@
 <?php
 
-function product($imagePath, $imageName, $productTitle, $productDesciption, $actualPrice, $sellingPrice) {
+function product($productId, $imagePath, $imageName, $productTitle, $productDesciption, $actualPrice, $sellingPrice) {
     $element = "
     <div class='col-md-3 col-sm-6 my-3 my-md-0'>
         <form action='index.php' method='post'>
@@ -26,6 +26,7 @@ function product($imagePath, $imageName, $productTitle, $productDesciption, $act
                     </h5>
                     <button type='submit' name='add' class='btn btn-info my-3'>Add to Basket <i
                             class='fas fa-shopping-basket'></i></button>
+                    <input type='hidden' name='productId' value=$productId>
                 </div>
             </div>
         </form>
