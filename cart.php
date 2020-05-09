@@ -1,19 +1,19 @@
 <?php
+    //Auto load environment variables
     require_once("autoload.php");
 
-    // Product 
-    require_once("./components/product.php");
+    // Session
+    session_start();
+
+    // cart elements
+    require_once('./components/cartElement.php');
 
     // Database
     require_once("./components/CreateDb.php");
     $database = new CreateDb();
     $database->createConnection();
-
-    // Session
-    require_once("components/productSession.php");
 ?>
 <!DOCTYPE html>
- 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,26 +36,38 @@
     <?php
         include('./components/header.php')
     ?>
-    <div class="container">
-        <div class="row text-center py-5">
-            <?php
-                $products = $database->getData();
-                
-                while ($product = mysqli_fetch_assoc($products)) {
-                    product(
-                        $product['id'],
-                        $product['image_path'],
-                        $product['image_name'],
-                        $product['title'],
-                        $product['description'],
-                        $product['actual_price'], 
-                        $product['selling_price']
-                    );
-                }
 
-                $products->free();
-                $database->closeConnection();
-            ?>
+    <div class="container-fluid">
+        <div class="row px-5">
+            <div class="col-md-7">
+                <div class="shopping-cart">
+                    <h4>My Cart</h4>
+                    <hr>
+                    <?php
+                        $products = $database->getData();
+                        $selectedItemsIds = array_column($_SESSION['basket'], 'productId');
+
+                        while ($product = mysqli_fetch_assoc($products)) {
+                            foreach ($selectedItemsIds as $selectedItemsId) {
+                                if ($selectedItemsId === $product['id']) {
+                                    cartElement(
+                                        $product['image_path'],
+                                        $product['image_name'],
+                                        $product['title'],
+                                        $product['selling_price']
+                                    );
+                                }
+                            }
+                        }
+        
+                        $products->free();
+                        $database->closeConnection();
+                    ?>
+                </div>
+            </div>
+            <div class="col-md-5">
+
+            </div>
         </div>
     </div>
 

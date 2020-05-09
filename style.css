@@ -12,3 +12,11 @@
     border-radius: 5rem;
     text-align: center;
 }
+
+.shopping-cart {
+    padding: 3% 0;
+}
+
+.cart-items {
+    padding: 1% 0;
+}
