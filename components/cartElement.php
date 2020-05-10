@@ -1,8 +1,8 @@
 <?php
 
-function cartElement($imagePath, $imageName, $productName, $sellingPrice) {
+function cartElement($productId, $imagePath, $imageName, $productName, $sellingPrice) {
     $element = "
-    <form action='cart.php' method='get' class='cart-items'>
+    <form action='cart.php' method='GET' class='cart-items'>
         <div class='border rounded'>
             <div class='row bg-white'>
                 <div class='col-md-3'>
@@ -13,7 +13,7 @@ function cartElement($imagePath, $imageName, $productName, $sellingPrice) {
                     <small class='text-secondary'>Seller: Sheril</small>
                     <h5 class='pt-2'>$$sellingPrice</h5>
                     <button type='submit' class='btn btn-warning'>Save for later</button>
-                    <button type='submit' class='btn btn-danger mx-2' name='remove'>Remove</button>
+                    <button type='submit' class='btn btn-danger mx-2' name='remove' value=$productId>Remove</button>
                 </div>
                 <div class='col-md-3'>
                 <div class='py-5'>

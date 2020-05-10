@@ -3,7 +3,7 @@
     require_once("autoload.php");
 
     // Session
-    session_start();
+    require_once("components/removeProductSession.php");
 
     // cart elements
     require_once('./components/cartElement.php');
@@ -47,21 +47,28 @@
                         $products = $database->getData();
                         $selectedItemsIds = array_column($_SESSION['basket'], 'productId');
 
-                        while ($product = mysqli_fetch_assoc($products)) {
-                            foreach ($selectedItemsIds as $selectedItemsId) {
-                                if ($selectedItemsId === $product['id']) {
-                                    cartElement(
-                                        $product['image_path'],
-                                        $product['image_name'],
-                                        $product['title'],
-                                        $product['selling_price']
-                                    );
+                        if (count($selectedItemsIds) > 0) {
+                            while ($product = mysqli_fetch_assoc($products)) {
+                                foreach ($selectedItemsIds as $selectedItemsId) {
+                                    if ($selectedItemsId === $product['id']) {
+                                        cartElement(
+                                            $product['id'],
+                                            $product['image_path'],
+                                            $product['image_name'],
+                                            $product['title'],
+                                            $product['selling_price']
+                                        );
+                                    }
                                 }
                             }
+            
+                            $products->free();
+                            $database->closeConnection();
+                        } else {
+                            echo '<div class="alert alert-info" role="alert">
+                                    Empty Basket! Fill it with some goodies...
+                                </div>';
                         }
-        
-                        $products->free();
-                        $database->closeConnection();
                     ?>
                 </div>
             </div>
