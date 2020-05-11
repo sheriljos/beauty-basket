@@ -46,6 +46,7 @@
                     <?php
                         $products = $database->getData();
                         $selectedItemsIds = array_column($_SESSION['basket'], 'productId');
+                        $total = 0;
 
                         if (count($selectedItemsIds) > 0) {
                             while ($product = mysqli_fetch_assoc($products)) {
@@ -58,6 +59,8 @@
                                             $product['title'],
                                             $product['selling_price']
                                         );
+
+                                        $total = $total + $product['selling_price'];
                                     }
                                 }
                             }
@@ -72,8 +75,44 @@
                     ?>
                 </div>
             </div>
-            <div class="col-md-5">
-
+            <div class="col-md-5 py-10">
+                <div class="pt-4">
+                        <h6>PRICE DETAILS</h6>
+                        <hr>
+                        <div class="row price-details">
+                            <div class="col-md-6">
+                                <?php
+                                    if (isset($_SESSION['basket'])) {
+                                        $count = count($_SESSION['basket']);
+                                        echo "<h6>Price ($count items)</h6>";
+                                    } else {
+                                        echo "<h6>Price (0 items)</h6>";
+                                    }
+                                ?>
+                                <h6>Delivery Charges</h6>
+                                <hr>
+                                <h6>Amount Payable</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <?php
+                                    if (isset($_SESSION['basket'])) {
+                                        echo "<h6>$$total</h6>";
+                                    } else {
+                                        echo "<h6>$0</h6>";
+                                    }
+                                ?>
+                                <h6 class="text-success">FREE</h6>
+                                <hr>
+                                <?php
+                                    if (isset($_SESSION['basket'])) {
+                                        echo "<h6>$$total</h6>";
+                                    } else {
+                                        echo "<h6>$0</h6>";
+                                    }
+                                ?>
+                            </div>
+                        </div>
+                </div>
             </div>
         </div>
     </div>
